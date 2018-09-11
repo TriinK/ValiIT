@@ -1,0 +1,142 @@
+html, body {
+    height: 100%;
+    min-height:100%;
+    background:linear-gradient(rgb(248,190,0),rgb(259,156,0));
+    justify-content: center;
+
+}
+
+.Greeting {
+    margin: 0;
+    border: 0;
+    display: inline-block;
+    position: relative;
+    padding-left: 35%;
+}
+
+.Wrap {
+    width:1300px;
+    margin: 0 auto;
+
+
+}
+h1{
+    font-size: 30px;
+    background-color: rgb(63,63,63);
+    padding: 20px 50px;
+    margin-top:100px;
+    color: white;
+    font-weight:bold;
+    text-align:center;
+    border-radius: 30px;
+    box-shadow:0 3px 20px 0 rgba(0, 0, 0, 0.6);
+
+}
+
+.btn-secondary{
+    border-radius: 40px;
+    font-size:25px;
+    font-weight:bold;
+    box-shadow:0 3px 20px 0 rgba(0, 0, 0, 0.6);
+
+}
+
+#logout {
+    color: white;
+    border-radius: 40px;
+    font-size:22px;
+    font-weight:bold;
+    box-shadow:0 3px 20px 0 rgba(0, 0, 0, 0.6);
+    background-color: rgb(63,63,63);
+    border: none;
+
+}
+
+#change {
+    color: white;
+    font-weight:bold;
+    background-color: rgb(63,63,63);
+    border: none;
+    margin-right:5%;
+    font-size:15px;
+
+
+}
+#delete {
+    color: white;
+    font-weight:bold;
+    background-color: rgb(63,63,63);
+    border: none;
+    font-size:15px;
+
+
+}
+.buttons {
+    display: flex;
+}
+
+nav{
+    line-height:70px;
+    display: inline;
+    padding-left: 80%;
+    padding-top: 2%;
+    width: 100%;
+
+}
+
+
+.container3 {
+    background-color: rgb(36,36,36);
+    border-radius: 30px;
+    padding: 2% 3%;
+    width:1300px;
+    padding-bottom: 200px;
+    font-size:20px;
+    color:white;
+    text-align: center;
+    box-shadow: 0 3px 20px 0 rgba(0, 0, 0, 0.6);
+}
+
+.wrapper {
+    padding-top: 5%;
+}
+
+tbody:before {
+    content: "-";
+    display: block;
+    line-height: 1em;
+    color: transparent;
+}
+
+
+
+th {
+    background: linear-gradient(to bottom, rgb(248,190,0),rgb(249, 156, 0));
+    padding:5px 20px 5px 15px;
+    height:auto;
+    width:auto;
+    text-align: center;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+
+}
+
+td{
+    text-align: center;
+    padding:5px 20px 5px 15px;
+    border-spacing: 15px;
+    margin: 0 10px;
+
+}
+
+tr{
+
+    height: 10px;
+    margin: 0 auto;
+
+}
+
+td input[type="checkbox"] {
+    margin: 0 auto;
+}

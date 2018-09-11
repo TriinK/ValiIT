@@ -1,0 +1,37 @@
+DROP TABLE IF EXISTS appointments CASCADE;
+
+CREATE TABLE appointments(
+id BIGSERIAL PRIMARY KEY,
+user_id BIGINT REFERENCES users(id),
+event_name VARCHAR NOT NULL,
+time TIMESTAMP,
+description TEXT
+);
+
+DROP TABLE IF EXISTS users CASCADE;
+
+CREATE TABLE users (
+  id BIGSERIAL PRIMARY KEY,
+  firstname VARCHAR(128) NOT NULL,
+  surname VARCHAR(64) NOT NULL,
+  email VARCHAR(64) NOT NULL,
+  password VARCHAR(64) NOT NULL,
+  enabled BOOLEAN NOT NULL DEFAULT TRUE,
+  UNIQUE(email)
+);
+
+DROP TABLE IF EXISTS role CASCADE;
+
+CREATE TABLE role (
+  id BIGSERIAL PRIMARY KEY,
+  name VARCHAR(32) NOT NULL
+);
+
+DROP TABLE IF EXISTS user_role;
+
+CREATE TABLE user_role (
+  id BIGSERIAL PRIMARY KEY,
+  user_id BIGSERIAL REFERENCES users(id),
+  role_id BIGSERIAL REFERENCES role(id),
+  UNIQUE (user_id, role_id)
+);
