@@ -9,8 +9,7 @@
     <packaging>jar</packaging>
 
     <name>trikad</name>
-    <description>Spring Boot + React + PostgreSQL</description>
-
+    <description>Spring Boot + PostgreSQL</description>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -33,10 +32,10 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-rest</artifactId>
         </dependency>
-        <!--<dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>-->
+        </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
@@ -57,10 +56,11 @@
             <artifactId>spring-security-config</artifactId>
             <version>5.0.4.RELEASE</version>
         </dependency>
-        <!--<dependency>
+        <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
-        </dependency>-->
+        </dependency>
     </dependencies>
+
 </project>

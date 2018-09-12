@@ -233,26 +233,82 @@ label {
 
 /*----------------------------------------
 [Modal window]*/
-.custom-overlay {
+
+#forgot-password{
   background: rgba(36, 36, 36, 0.5);
 }
-.custom-modal {
-  background: black;
-  max-width: 500px;
-  width: 300px;
-  align-content: center;
+
+#create-user-modal {
+  background: rgba(36, 36, 36, 0.5);
+}
+.modal-content {
+  background:black;
 }
 
-.input-group-addon {
+.modal-title {
   color:white;
-  background-color: rgba(36, 36, 36, 0.5);
-  border-radius:10px;
-
 }
 
+#modal-button {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 20px;
+  width: 91%;
+  height: 50px;
+  background-color: rgb(63,63,63);
+  border-radius: 15px;
+
+
+  font-family: Ubuntu-Bold;
+  font-size: 15px;
+  color: #fff;
+  line-height: 1.2;
+  text-transform: uppercase;
+
+  -webkit-transition: all 0.4s;
+  -o-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  transition: all 0.4s;
+
+}
 /*------------------------------------------------------------------
 [ Button ]*/
-.new-user-button {
+#new-user-button {
+  background: linear-gradient(to bottom, rgb(248,190,0),rgb(249, 156, 0));
+  /**background-image: url('../images/ADDico.png');
+  background-repeat:no-repeat;
+  background-position:6px;**/
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 10px;
+  width: 91%;
+  height: 50px;
+  border-radius: 15px;
+  margin-top:5px;
+
+  font-family: Ubuntu-Bold;
+  font-size: 16px;
+  color: black;
+  line-height: 1.2;
+  text-transform: uppercase;
+  text-align:left;
+
+  -webkit-transition: all 0.4s;
+  -o-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  transition: all 0.4s;
+}
+#new-user {
   background: linear-gradient(to bottom, rgb(248,190,0),rgb(249, 156, 0));
   /**background-image: url('../images/ADDico.png');
   background-repeat:no-repeat;
@@ -283,7 +339,7 @@ label {
   transition: all 0.4s;
 }
 
-.login-btn {
+#login-btn {
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
@@ -310,12 +366,12 @@ label {
   transition: all 0.4s;
 }
 
-.login100-form-btn:hover {
-  box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.1);
+#new-user-button:hover {
+  box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.2);
 }
 
-.create-new-user-form-btn:hover {
-  box-shadow: inset 0 0 100px 100px rgba(0, 0, 0, 0.2);
+#login-btn:hover {
+  box-shadow: inset 0 0 100px 100px rgba(0, 0, 0, 0.3);
 }
 
 /*------------------------------------------------------------------
