@@ -24,7 +24,7 @@ public class Appointments extends BaseEntity {
         this.description = description;
     }
 
-    @Column(name="userId")
+    @Column(name="user_id")
     private Long userId;
 
     @Column(name="event_name")

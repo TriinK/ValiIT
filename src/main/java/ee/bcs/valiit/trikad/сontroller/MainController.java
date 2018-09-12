@@ -21,6 +21,7 @@ public class MainController {
     public String index() {
         return "index.html";
     }
+
     @RequestMapping("/login")
     public String login(@RequestParam(value = "error", required = false) String error, @RequestParam(value = "logout", required = false) String logout) {
         if (error != null) {
@@ -29,7 +30,7 @@ public class MainController {
         if (logout != null) {
             return "/static/logout.html";
         }
-        return "/static/login.html";
+        return "/static/AppPage.html";
     }
 
     //Sisselogimine autentimisega
@@ -48,5 +49,13 @@ public class MainController {
         }
         return principal;
     }
-
+    @RequestMapping(value = "/newuser")
+    public void newUser(@RequestBody User user) {
+        User newuser = new User();
+        newuser.setFirstname(user.getFirstname());
+        newuser.setSurname(user.getSurname());
+        newuser.setEmail(user.getEmail());
+        newuser.setPassword(user.getPassword());
+        userservice.save(newuser);
+    }
 }

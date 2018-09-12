@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<head lang="en">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="css/AppPage.css">
+    <script src="js/PageFunctions.js"></script>
+    <title>ReactJS + Spring + Postgesql</title>
+</head>
+
+<body>
+<div class="AppPage">
+    <div class="Wrap">
+        <header>
+            <nav>
+                <button id="logout" type="button" class="btn btn-primary" onClick=logout()>LOGI VÄLJA</button>
+            </nav>
+        </header>
+
+        <div class="Greeting">
+            <h1> Hello - Triin</h1>
+        </div>
+        <div class="wrapper">
+            <div class="container3">
+                <table>
+
+                    <thead>
+                    <tr>
+                        <th scope="col">Nimi</th>
+                        <th scope="col">Aeg</th>
+                        <th scope="col">Kirjeldus</th>
+                        <th scope="col">Tehtud</th>
+                        <th scope="col">Valikud</th>
+                        <th>
+                            <button class="btn btn-primary" data-toggle="modal"
+                                    data-target="#appointmentAdd_modal">LISA
+                            </button>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody id="appointment_list">
+                    <tr>
+                    <td>Arsti aeg</td>
+                    <td>30. oktoober 2018</td>
+                    <td>Silmaarsti aeg. Silmaarsti nimi on: dr Kukk</td>
+                    <td><Input type="checkbox" id="checkbox2"/></td>
+                    <td class="buttons">
+                        <button id="change" type="button" data-toggle="modal" data-target="#appointmentChange_modal" class="btn btn-primary">MUUDA</button>
+                        &nbsp;&nbsp;
+                        <button id="delete" type="button" class="btn btn-primary" data-target="#appointmentDelete_modal" data-toggle="modal">KUSTUTA</button>
+                    </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <!-- Modal add-->
+                <div class="modal fade" id="appointmentAdd_modal" tabindex="-1" role="dialog"
+                     aria-labelledby="appointment_modal_label" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="appointment_modal_label">Kirje lisamine</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">x</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form name="appointmentForm">
+                                    <input type="hidden" name="id" id="id" value="0"/>
+                                    <input type="text" id="eventname" name="eventname" class="form-control"
+                                           placeholder="Kirje nimi"/><br/>
+                                    <input type="date" id="time" name="time" class="form-control"
+                                           placeholder="Aeg"/><br/>
+                                    <textarea type="text" id="description" name="description" readonly="readonly"
+                                              class="form-control" placeholder="Kirjeldus" ></textarea/>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-dismiss="modal" >Tühista</button>
+                                <button type="button" class="btn btn-warning" data-dismiss="modal">Saada
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal add end-->
+
+                <!-- Modal change-->
+                <div class="modal fade" id="appointmentChange_modal" tabindex="-1" role="dialog"
+                     aria-labelledby="appointment_modal_label" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="appointmentChange_modal_label">Kirje muutmine</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">x</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form name="appointmentForm">
+                                    <input type="hidden" name="id" id="id" value="0"/>
+                                    <input type="text" id="eventname" name="eventname" class="form-control"
+                                           placeholder="Kirje nimi"/><br/>
+                                    <input type="date" id="time" name="time" class="form-control"
+                                           placeholder="Aeg"/><br/>
+                                    <textarea type="text" id="description" name="description" readonly="readonly"
+                                              class="form-control" placeholder="Kirjeldus" row="6"/></textarea/>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-dismiss="modal">Tühista</button>
+                                <button type="button" class="btn btn-warning" data-dismiss="modal">Saada</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal change end-->
+
+
+                <!-- Modal delete change-->
+                <div class="modal fade" id="appointmentDelete_modal" tabindex="-1" role="dialog"
+                     aria-labelledby="appointment_modal_label" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="appointmentDelete_modal_label">Kirje kustutamine</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">x</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>OLED SA KINDEL?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-dismiss="modal" >Tühista</button>
+                                <button type="button" class="btn btn-warning" data-dismiss="modal">Kustuta</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal delete end-->
+
+
+                <script src="js/jquery.min.js"></script>
+                <script src="js/jquery-ui.min.js"></script>
+
+                <script>
+
+                </script>
+
+            </div>
+        </div>
+
+
+    </div>
+</div>
+</body>
+

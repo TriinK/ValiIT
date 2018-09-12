@@ -68,9 +68,8 @@ h1{
     background-color: rgb(63,63,63);
     border: none;
     font-size:15px;
-
-
 }
+
 .buttons {
     display: flex;
 }
@@ -88,9 +87,11 @@ nav{
 .container3 {
     background-color: rgb(36,36,36);
     border-radius: 30px;
-    padding: 2% 3%;
-    width:1300px;
+    padding-top: 2%;
+    width:1250px;
+    max-width: 1400px;
     padding-bottom: 200px;
+    padding-left: 4%;
     font-size:20px;
     color:white;
     text-align: center;
@@ -104,7 +105,7 @@ nav{
 tbody:before {
     content: "-";
     display: block;
-    line-height: 1em;
+    line-height: 2px;
     color: transparent;
 }
 
@@ -119,6 +120,7 @@ th {
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
+    max-width: 500px;
 
 }
 
@@ -127,16 +129,40 @@ td{
     padding:5px 20px 5px 15px;
     border-spacing: 15px;
     margin: 0 10px;
+    max-width: 500px;
 
 }
 
 tr{
-
     height: 10px;
     margin: 0 auto;
-
+    max-width: 500px;
 }
 
 td input[type="checkbox"] {
     margin: 0 auto;
+    height: 2rem;
+    width: 1.5rem;
+}
+
+#appointmentAdd_modal{
+    background: rgba(36, 36, 36, 0.5);
+}
+#appointmentChange_modal{
+    background: rgba(36, 36, 36, 0.5);
+}
+#appointmentDelete_modal{
+    background: rgba(36, 36, 36, 0.5)
+}
+
+.modal-content {
+    background:black;
+}
+
+.modal-title {
+    color:white;
+}
+.close{
+    color:white;
+
 }
