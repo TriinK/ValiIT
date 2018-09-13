@@ -234,6 +234,9 @@ label {
 /*----------------------------------------
 [Modal window]*/
 
+.form-control {
+  margin-top: 15px;
+}
 #forgot-password{
   background: rgba(36, 36, 36, 0.5);
 }

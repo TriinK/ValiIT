@@ -2,15 +2,16 @@ function login(username,password) {
 
     fetch('/user', {
         method: 'GET',
-        credentials: 'include',
-        //success: location.href = "AppPage.html"
+        dataType: "json",
+        contentType: "application/json",
+        success: location.href = "AppPage.html"
     })
         .then(response => response.json())
         .then(response => console.log('Success:', JSON.stringify(response)))
         .then(function(response) {
             let user = JSON.stringify(response);
-            console.log(user.email)
-            if(user.email == $('#username').val) {
+            console.log(user.firstname)
+            if(user.email == username) {
                 location.href = "AppPage.html"
             } else {
                 console.log("Does it go here!")
@@ -26,30 +27,29 @@ function sendemail() {
     alert("Email has been sent!");
 }
 
-function createuser(customerId) {
+function createuser() {
     if ($('#id').val() > 0) {
         const url = "/edit";
     } else {
-        url = "/newuser";
+        url = "/newuser"
+    }
+    const data = {
+        firstname:$('#firstname').val,
+        surname:$('#surname').val,
+        email:$('#email').val,
+        password: $('#password').val
     }
     fetch(url, {
         method: 'POST',
-        dataType: "json",
-        contentType: "application/json",
-        data: JSON.stringify((getData($('form[id=create-user-modal]').serializeArray()))),
-        complete: function (response) {
-            giveMeAllUsers();
-        }
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data),
     })
-        .then(res=>res.json())
+        .then(res => res.json())
         .then(response => console.log('Success:', JSON.stringify(response)))
         .then(function(response) {
-            let user = JSON.stringify(response);
-            $('#id').val(user.id);
-            $('#firstname').val(user.firstname);
-            $('#surname').val(user.surname);
-            $('#email').val(user.email);
-            $('#user').val(user.password);
             $('#create-user-modal').modal('hide');
         })
         .catch(error => console.error('Error:', error));
@@ -66,4 +66,8 @@ function getData(data) {
         result[n['name']] = n['value'];
     });
     return result;
+}
+
+function validateForm() {
+
 }

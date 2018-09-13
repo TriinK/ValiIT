@@ -26,10 +26,12 @@
             <div class="container-login100">
                 <form>
                 <div class="form-group">
-                    <input type="text" name="username" class= "form-control" id="username" placeholder="   Kasutajanimi"/>
+                    <input type="text" name="username" class= "form-control" id="username" placeholder="   Kasutajanimi" onchange="handleChange()"/>
+                    <div id="helping-block-username" style="color: red;">Please insert username</div>
                 </div>
                 <div class="form-group">
-                    <input type="password" name="password" class= "form-control" id="password" placeholder="   Parool"/>
+                    <input type="password" name="password" class= "form-control" id="password" placeholder="   Parool" onchange="handleChange()"/>
+                    <div id="helping-block-password" style="color: red;">Please insert password!</div>
                 </div>
                 <button type="button" class="btn btn-warning" id="login-btn" onClick=login($('#username').val(),$('#password').val())>LOGI SISSE</button>
                     <button type="button" class="btn btn-secondary" id="new-user-button" data-toggle="modal" data-target="#create-user-modal">LOO KASUTAJA</button>
@@ -52,18 +54,13 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="form-group">
+                <form name="create-user-modal">
+                    <input type="hidden" name="id" id="id" value="0"/>
                     <input type="text" name="firstname" class= "form-control" id="firstname" placeholder="Eesnimi"/>
-                </div>
-                <div class="form-group">
-                    <input type="text" name="surtname" class= "form-control" id="surname" placeholder="Perekonnanimi"/>
-                </div>
-                <div class="form-group">
+                    <input type="text" name="surname" class= "form-control" id="surname" placeholder="Perekonnanimi"/>
                     <input type="email" name="email" class= "form-control" id="email" placeholder="Email"/>
-                </div>
-                <div class="form-group">
                     <input type="password" name="password" class= "form-control" id="password_new" placeholder="Password"/>
-                </div>
+                </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-warning" id="new-user" onClick="createuser()">LOO KASUTAJA</button>
@@ -94,5 +91,44 @@
         </div>
     </div>
 </div>
+<script>
+    function createuser() {
+        if ($('#id').val() > 0) {
+            const url = "/edit";
+        } else {
+            url = "/newuser"
+        }
+        fetch(url, {
+            method: 'POST',
+            async: false,
+            dataType: "json",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify((getData($('form[name=create-user-modal]').serializeArray()))),
+        })
+            .then(res => res.json())
+            .then(response => console.log('Success:', JSON.stringify(response)))
+            .then(function(response) {
+                $('#create-user-modal').modal('hide');
+            })
+            .catch(error => console.error('Error:', error));
+    }
+        $('#username').keyup(function() {
+            if ($(this).val().length == 0) {
+                $('#helping-block-username').show();
+            } else {
+                $('#helping-block-username').hide();
+            }
+        }).keyup();
+    $('#password').keyup(function() {
+        if ($(this).val().length == 0) {
+            $('#helping-block-password').show();
+        } else {
+            $('#helping-block-password').hide();
+        }
+    }).keyup();
+</script>
 </body>
 </html>

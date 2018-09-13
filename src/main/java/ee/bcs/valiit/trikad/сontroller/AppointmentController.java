@@ -1,9 +1,10 @@
 package ee.bcs.valiit.trikad.сontroller;
 
 import ee.bcs.valiit.trikad.bean.Appointments;
+import ee.bcs.valiit.trikad.bean.User;
 import ee.bcs.valiit.trikad.service.AppointmentService;
+import ee.bcs.valiit.trikad.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -14,6 +15,9 @@ public class AppointmentController {
 
     @Autowired
     private AppointmentService appointmentService;
+
+    @Autowired
+    private UserService userservice;
 
     @GetMapping("/appointmentslist")
     List<Appointments> apps() {
@@ -39,5 +43,15 @@ public class AppointmentController {
     private void delete(@PathVariable Long id) {
         Appointments app = appointmentService.getOne(id);
         appointmentService.delete(app);
+    }
+    @RequestMapping(value = "/newuser")
+    public void newUser(@RequestBody User user) {
+        User newuser = new User();
+        newuser.setFirstname(user.getFirstname());
+        newuser.setSurname(user.getSurname());
+        newuser.setEmail(user.getEmail());
+        newuser.setPassword(user.getPassword());
+        System.out.println(newuser.getEmail());
+        userservice.save(newuser);
     }
 }
