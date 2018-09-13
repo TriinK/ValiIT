@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Date;
 import java.util.List;
 
-@Controller
+@RestController
 public class AppointmentController {
 
     @Autowired
     private AppointmentService appointmentService;
 
-    @GetMapping("/appointments")
+    @GetMapping("/appointmentslist")
     List<Appointments> apps() {
         return appointmentService.list();
     }
@@ -30,9 +30,14 @@ public class AppointmentController {
         appointmentService.add(app);
     }
 
-    //@PostMapping(value = "/delete/{id}", produces="application/json")
-    //private void delete(@PathVariable Long id) {
-    //    Optional<Appointments> app = appointmentService.findById(id);
-    //    appointmentService.delete(app);
-    //}
+    @GetMapping(value = "/get/{id}", produces = "application/json")
+    public Appointments get(@PathVariable Long id) {
+        return appointmentService.getOne(id);
+    }
+
+    @PostMapping(value = "/delete/{id}", produces="application/json")
+    private void delete(@PathVariable Long id) {
+        Appointments app = appointmentService.getOne(id);
+        appointmentService.delete(app);
+    }
 }

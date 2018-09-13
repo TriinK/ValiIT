@@ -26,10 +26,10 @@ public class AppointmentService {
         return appointmentsRepository.getOne(id);
     }
 
-    //@Transactional
-    //public void delete(Optional<Appointments> appointment) {
-    //    appointmentsRepository.delete(appointment);
-    //}
+    @Transactional
+    public void delete(Appointments appointment) {
+        appointmentsRepository.delete(appointment);
+    }
 
     @Transactional
     public void add(Appointments appointment) {

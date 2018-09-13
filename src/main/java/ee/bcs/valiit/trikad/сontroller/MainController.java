@@ -11,7 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/home")
 public class MainController {
 
     @Autowired
@@ -48,6 +48,10 @@ public class MainController {
             principal.setRoles(AuthorityUtils.authorityListToSet(authentication.getAuthorities()));
         }
         return principal;
+    }
+    @GetMapping("/apps")
+    private String appoints() {
+        return "AppPage.html";
     }
     @RequestMapping(value = "/newuser")
     public void newUser(@RequestBody User user) {

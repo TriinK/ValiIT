@@ -6,6 +6,7 @@ html, body {
 
 }
 
+
 .Greeting {
     margin: 0;
     border: 0;
@@ -24,7 +25,7 @@ h1{
     font-size: 30px;
     background-color: rgb(63,63,63);
     padding: 20px 50px;
-    margin-top:100px;
+    margin-top: 20px;
     color: white;
     font-weight:bold;
     text-align:center;
@@ -33,13 +34,6 @@ h1{
 
 }
 
-.btn-secondary{
-    border-radius: 40px;
-    font-size:25px;
-    font-weight:bold;
-    box-shadow:0 3px 20px 0 rgba(0, 0, 0, 0.6);
-
-}
 
 #logout {
     color: white;
@@ -70,9 +64,6 @@ h1{
     font-size:15px;
 }
 
-.buttons {
-    display: flex;
-}
 
 nav{
     line-height:70px;
@@ -85,7 +76,7 @@ nav{
 
 
 .container3 {
-    background-color: rgb(36,36,36);
+    background: rgb(36, 36, 36);
     border-radius: 30px;
     padding-top: 2%;
     width:1250px;
@@ -145,15 +136,10 @@ td input[type="checkbox"] {
     width: 1.5rem;
 }
 
-#appointmentAdd_modal{
+#appointment_modal{
     background: rgba(36, 36, 36, 0.5);
 }
-#appointmentChange_modal{
-    background: rgba(36, 36, 36, 0.5);
-}
-#appointmentDelete_modal{
-    background: rgba(36, 36, 36, 0.5)
-}
+
 
 .modal-content {
     background:black;
@@ -164,5 +150,10 @@ td input[type="checkbox"] {
 }
 .close{
     color:white;
+    background: white;
 
+}
+
+.ui-datepicker {
+    background: white;
 }
