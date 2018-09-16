@@ -33,7 +33,7 @@ function createuser() {
     } else {
         url = "/newuser"
     }
-    const data = {
+    var data = {
         firstname:$('#firstname').val,
         surname:$('#surname').val,
         email:$('#email').val,
@@ -61,7 +61,7 @@ function logout() {
 }
 
 function getData(data) {
-    let result = {};
+    var result = {};
     $.map(data,function(n) { //tsükkel formi nimede täitmiseks väärtustega. Mäpi loomise funktsioon.
         result[n['name']] = n['value'];
     });

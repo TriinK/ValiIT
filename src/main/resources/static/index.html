@@ -96,12 +96,12 @@
     $(document).ready(function ($) {
         $('#loginForm').submit(function (event) {
             event.preventDefault();
-            let data = 'username=' + $('#username').val()+ '&password=' + SHA256($('#password').val());
+            var data = 'username=' + $('#username').val()+ '&password=' + SHA256($('#password').val());
             $.ajax({
                 data: JSON.stringify(data),
                 timeout: 1000,
                 type: 'POST',
-                url: '/login',
+                url: 'login',
                 contentType: "application/json"
             }).done(function(data, textStatus, jqXHR) {
                 window.location = '/';

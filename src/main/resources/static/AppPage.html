@@ -94,9 +94,27 @@
                     $(document).ready(
                         function () {
                             initUIControls();
+                            giveMeUser();
                             giveMeAllAppointments();
                         }
                     );
+                    function giveMeUser() {
+                        $.ajax(
+                            {
+                                method: "GET",
+                                url: "/user",
+                                dataType: "json",
+                                contentType: "application/json",
+                                complete: function (response) {
+                                    if (response.status == '401') {
+                                        window.location.href = '/login';
+                                    }
+                                    var user = response.responseJSON;
+                                    $('#username').html(user.name);
+                                }
+                            }
+                        );
+                    }
 
                     function initUIControls() {
                         $('#time').datepicker(

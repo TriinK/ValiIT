@@ -29,7 +29,7 @@ public class MainController {
         if (logout != null) {
             return "logout.html";
         }
-        return "AppPage.html";
+        return "index.html";
     }
 
     //Sisselogimine autentimisega
