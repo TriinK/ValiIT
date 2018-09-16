@@ -7,6 +7,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="css/App.css">
     <script src="js/PageFunctions.js"></script>
+    <script src="js/SHA256.js"></script>
     <title>Kohtumisteäpp</title>
 </head>
 <body>
@@ -24,16 +25,16 @@
             <img src=images/logo.svg class="App-logo" alt="logo" />
             <h1 class="App-title">Kohtumised käeulatuses!</h1>
             <div class="container-login100">
-                <form>
+                <form id="loginForm" name="loginForm">
                 <div class="form-group">
-                    <input type="text" name="username" class= "form-control" id="username" placeholder="   Kasutajanimi" onchange="handleChange()"/>
+                    <input type="text" name="username" class= "form-control" id="username" placeholder="   Kasutajanimi"/>
                     <div id="helping-block-username" style="color: red;">Please insert username</div>
                 </div>
                 <div class="form-group">
-                    <input type="password" name="password" class= "form-control" id="password" placeholder="   Parool" onchange="handleChange()"/>
+                    <input type="password" name="password" class= "form-control" id="password" placeholder="   Parool"/>
                     <div id="helping-block-password" style="color: red;">Please insert password!</div>
                 </div>
-                <button type="button" class="btn btn-warning" id="login-btn" onClick=login($('#username').val(),$('#password').val())>LOGI SISSE</button>
+                <button type="submit" class="btn btn-warning" id="login-btn">LOGI SISSE</button>
                     <button type="button" class="btn btn-secondary" id="new-user-button" data-toggle="modal" data-target="#create-user-modal">LOO KASUTAJA</button>
                 </form>
              </div>
@@ -92,6 +93,25 @@
     </div>
 </div>
 <script>
+    $(document).ready(function ($) {
+        $('#loginForm').submit(function (event) {
+            event.preventDefault();
+            let data = 'username=' + $('#username').val()+ '&password=' + SHA256($('#password').val());
+            $.ajax({
+                data: data,
+                type: 'GET',
+                url: '/login',
+                contentType: "application/json; charset=utf-8"
+            }).done(function(data, textStatus, jqXHR) {
+                window.location = '/apps';
+            }).fail(function(jqXHR, textStatus, errorThrown, response) {
+                console.log(data);
+                console.log(response);
+                alert('Something went wrong (It is probably something you did!)...');
+            });
+        });
+    });
+
     function createuser() {
         if ($('#id').val() > 0) {
             const url = "/edit";
@@ -107,12 +127,11 @@
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify((getData($('form[name=create-user-modal]').serializeArray()))),
+            success: $('#create-user-modal').modal('hide')
         })
             .then(res => res.json())
+            .then(function(response) { $('#create-user-modal').modal('hide');})
             .then(response => console.log('Success:', JSON.stringify(response)))
-            .then(function(response) {
-                $('#create-user-modal').modal('hide');
-            })
             .catch(error => console.error('Error:', error));
     }
         $('#username').keyup(function() {

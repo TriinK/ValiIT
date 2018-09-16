@@ -23,8 +23,6 @@ class AppPage extends Component {
             this.setState({employees: response.entity._embedded.employees});
         });
     }
-    }
-
     render() {
         const {appointments, isLoading} = this.state;
         const {open} = this.state;

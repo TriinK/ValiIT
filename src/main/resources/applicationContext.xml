@@ -68,8 +68,8 @@
     <security:global-method-security jsr250-annotations="enabled" pre-post-annotations="enabled" proxy-target-class="false" />
 
     <security:http entry-point-ref="httpStatusEntryPoint" auto-config="true" use-expressions="true" authentication-manager-ref="authenticationManager">
-        <security:intercept-url pattern="/user" access="hasAnyAuthority('bank.user', 'bank.admin')" />
-        <security:intercept-url pattern="/customer/**" access="hasAnyAuthority('bank.user', 'bank.admin')" />
+        <security:intercept-url pattern="/user" access="hasAnyAuthority('trikad.user', 'trikad.admin')" />
+        <security:intercept-url pattern="/customer/**" access="hasAnyAuthority('trikad.user', 'trikad.admin')" />
         <security:form-login authentication-success-handler-ref="authenticationSuccessHandler"
                              login-page="/login"
                              authentication-failure-url="/login?error"
@@ -92,8 +92,8 @@
         <security:authentication-provider>
             <security:password-encoder hash="sha-256" />
             <security:jdbc-user-service data-source-ref="dataSource"
-                                        users-by-username-query="select username, password, enabled from users where username = ?"
-                                        authorities-by-username-query="select u.username as username, r.name as role from users u, user_role ur, role r where ur.user_id = u.id and r.id = ur.role_id and u.username = ?" />
+                                        users-by-username-query="select email, password, enabled from users where email = ?"
+                                        authorities-by-username-query="select u.email as username, r.name as role from users u, user_role ur, role r where ur.user_id = u.id and r.id = ur.role_id and u.email = ?" />
         </security:authentication-provider>
     </security:authentication-manager>
 

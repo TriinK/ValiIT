@@ -6,7 +6,6 @@ html, body {
 
 }
 
-
 .Greeting {
     margin: 0;
     border: 0;
@@ -18,7 +17,6 @@ html, body {
 .Wrap {
     width:1300px;
     margin: 0 auto;
-
 
 }
 h1{
@@ -46,22 +44,15 @@ h1{
 
 }
 
-#change {
-    color: white;
-    font-weight:bold;
-    background-color: rgb(63,63,63);
-    border: none;
-    margin-right:5%;
-    font-size:15px;
 
-
-}
-#delete {
+#change, #delete {
+    display: inline-block;
     color: white;
     font-weight:bold;
     background-color: rgb(63,63,63);
     border: none;
     font-size:15px;
+
 }
 
 
@@ -130,11 +121,10 @@ tr{
     max-width: 500px;
 }
 
-td input[type="checkbox"] {
-    margin: 0 auto;
-    height: 2rem;
-    width: 1.5rem;
+#appointmentDelete_modal{
+    background: rgba(36, 36, 36, 0.5)
 }
+
 
 #appointment_modal{
     background: rgba(36, 36, 36, 0.5);
@@ -156,4 +146,9 @@ td input[type="checkbox"] {
 
 .ui-datepicker {
     background: white;
+}
+input[type="checkbox"] {
+    margin: 0 auto;
+    height: 20px;
+    width: 20px;
 }

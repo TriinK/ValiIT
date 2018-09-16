@@ -16,12 +16,12 @@ public class MainController {
     @Autowired
     private UserService userservice;
 
-    @RequestMapping(value = "/home")
+    @RequestMapping(value = "/")
     public String index() {
         return "index.html";
     }
 
-    @RequestMapping("/login")
+    @RequestMapping(value="/login")
     public String login(@RequestParam(value = "error", required = false) String error, @RequestParam(value = "logout", required = false) String logout) {
         if (error != null) {
             return "/static/error.html";
@@ -29,7 +29,7 @@ public class MainController {
         if (logout != null) {
             return "/static/logout.html";
         }
-        return "/static/AppPage.html";
+        return "/static/index.html";
     }
 
     //Sisselogimine autentimisega
@@ -52,4 +52,5 @@ public class MainController {
     private String appoints() {
         return "AppPage.html";
     }
+
 }

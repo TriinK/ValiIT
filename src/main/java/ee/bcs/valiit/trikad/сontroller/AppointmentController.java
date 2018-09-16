@@ -1,12 +1,17 @@
 package ee.bcs.valiit.trikad.сontroller;
 
+import com.google.common.hash.Hashing;
+import ee.bcs.valiit.trikad.PasswordEncoder;
 import ee.bcs.valiit.trikad.bean.Appointments;
 import ee.bcs.valiit.trikad.bean.User;
+import ee.bcs.valiit.trikad.bean.UserRole;
 import ee.bcs.valiit.trikad.service.AppointmentService;
 import ee.bcs.valiit.trikad.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -46,12 +51,13 @@ public class AppointmentController {
     }
     @RequestMapping(value = "/newuser")
     public void newUser(@RequestBody User user) {
+        PasswordEncoder pass = new PasswordEncoder(user.getPassword());
         User newuser = new User();
         newuser.setFirstname(user.getFirstname());
         newuser.setSurname(user.getSurname());
         newuser.setEmail(user.getEmail());
-        newuser.setPassword(user.getPassword());
-        System.out.println(newuser.getEmail());
+        newuser.setPassword(pass.print());
+        newuser.setEnabled(true);
         userservice.save(newuser);
     }
 }

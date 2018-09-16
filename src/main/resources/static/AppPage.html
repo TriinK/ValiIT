@@ -25,17 +25,15 @@
     <div class="Wrap">
         <header>
             <nav>
-                <button id="logout" type="button" class="btn btn-primary">LOGI VÄLJA</button>
+                <button id="logout" type="button" class="btn btn-primary" onClick=logout()>LOGI VÄLJA</button>
             </nav>
         </header>
 
         <div class="Greeting">
-            <h1><a href="#">Welcome User!</a></h1>
+            <h1> Tere tulemast! </h1>
         </div>
         <div class="wrapper">
-            <button class="btn btn-primary" data-toggle="modal" data-target="#appointment_modal"
-                    onclick="prepareAppointmentAdd();">LISA
-            </button>
+            <button class="btn btn-primary" onclick="prepareAppointmentAdd();">LISA</button>
             <div class="container3">
                 <table>
 
@@ -49,7 +47,8 @@
 
                     </tr>
                     </thead>
-                    <tbody id="appointments_list"></tbody>
+                    <tbody id="appointments_list">
+                    </tbody>
                 </table>
 
                 <!-- Modal add-->
@@ -66,12 +65,13 @@
                             <div class="modal-body">
                                 <form name="appointmentForm">
                                     <input type="hidden" name="id" id="id" value="0"/>
+                                    <input type="hidden" name="userId" id="userId" value="1"/>
                                     <input type="text" id="eventname" name="eventname" class="form-control"
                                            placeholder="Kirje nimi"/><br/>
                                     <input type="text" id="time" name="time" readonly="readonly" class="form-control"
                                            placeholder="Aeg"/><br/>
-                                    <textarea name="description" type="text" class="form-control" rows="7"
-                                              placeholder="Kirjeldus"></textarea>
+                                    <input type="text" id="description" name="description" class="form-control"
+                                           placeholder="Kirjeldus"/><br/>
                                 </form>
                             </div>
                             <div class="modal-footer">
@@ -85,15 +85,35 @@
                 </div>
                 <!-- Modal add end-->
 
-
                 <script>
+
 
                     $(document).ready(
                         function () {
                             initUIControls();
+                            giveMeUser();
                             giveMeAllAppointments();
                         }
                     );
+                    function giveMeUser() {
+                        $.ajax(
+                            {
+                                method: "GET",
+                                url: "/user",
+                                dataType: "json",
+                                contentType: "application/json",
+                                complete: function (response) {
+                                    if (response.status == '401') {
+                                        window.location.href = '/';
+                                    }
+                                    let user = response.responseJSON;
+                                    $('#username').html(user.email);
+                                }
+                            }
+                        );
+                    }
+
+
 
                     function initUIControls() {
                         $('#time').datepicker(
@@ -102,7 +122,7 @@
                                 showButtonPanel: true,
                                 changeMonth: true,
                                 changeYear: true,
-                                showOtherMonths: true,
+                                showOtherMonths: false,
                                 selectOtherMonths: true,
                                 yearRange: "-300:+0"
                             }
@@ -116,31 +136,47 @@
                                 url: "/appointmentslist",
                                 dataType: "json",
                                 contentType: "application/json",
-                                error: "errorerror",
                                 complete: function (response) {
                                     if (response.status == '401') {
                                         window.location.href = '/home';
                                     }
                                     $('#appointments_list').empty();
-                                    let appointments = JSON.stringify(response);
+                                    let appointments = response.responseJSON;
                                     console.log(appointments);
                                     for (let i = 0; i < appointments.length; i++) {
-                                        let row = "<tr>";
-                                        row = row + "<td>" + appointments[i].eventname + "</td>";
-                                        row = row + "<td>" + appointments[i].time + "</td>";
-                                        row = row + "<td>" + appointments[i].description + "</td>";
-                                        row = row + "<td>";
+                                        let row = '<tr>';
+                                        row = row + "<td id='text1'>" + appointments[i].eventname + "</td>";
+                                        row = row + "<td id='text2'>" + appointments[i].time + "</td>";
+                                        row = row + "<td id='text3'>" + appointments[i].description + "</td>";
+                                        row = row + '<td><input id="check" type="checkbox" onclick=crossout() /></td>';
                                         row = row + '<td><button class="btn btn-secondary" id="change" onClick="prepareAppointment('
                                             + appointments[i].id + ');">MUUDA</button>&nbsp;'
-                                            + '<button class="btn btn-sm btn-danger"  id="delete" onClick="deleteAppointment('
+                                            + '<button class="btn btn-secondary"  id="delete" onClick="deleteAppointment('
                                             + appointments[i].id + ');">KUSTUTA</button></td>';
                                         row = row + "</tr>";
-                                        console.log("aga siia jõuab?");
                                         $('#appointments_list').append(row);
                                     }
                                 }
                             }
                         );
+                    }
+                    function crossout() {
+
+                        let checkBox = document.getElementById("check");
+
+                        let text1 = document.getElementById("text1");
+                        let text2 = document.getElementById("text2");
+                        let text3 = document.getElementById("text3");
+
+                        if (checkBox.checked == true) {
+                            text1.style = "text-decoration: line-through";
+                            text2.style = "text-decoration: line-through";
+                            text3.style = "text-decoration: line-through";
+                        }else{
+                            text1.style = "none";
+                            text2.style = "none";
+                            text3.style = "none";
+                        }
                     }
 
                     function prepareAppointmentAdd() {
@@ -151,15 +187,21 @@
                         $('#appointment_modal').modal('show');
                     }
 
-                    function prepareAppointment(appointmentId) { //kas mitmus v ainsus?
+                    function prepareAppointment(appointmentId) {
                         $.ajax(
                             {
                                 method: "GET",
                                 url: "/get/" + appointmentId,
                                 dataType: "json",
                                 contentType: "application/json",
+                                error: function (error) {
+                                    console.log("errorerror");
+                                },
+                                success: function (success) {
+                                    console.log("success");
+                                },
                                 complete: function (response) {
-                                    var appointment = response.responseJSON;
+                                    let appointment = response.responseJSON;
                                     $('#id').val(appointment.id);
                                     $('#eventname').val(appointment.eventname);
                                     $('#time').val(appointment.time);
@@ -170,9 +212,14 @@
                         );
                     }
 
-
                     function addAppointment() {
-                        var url = "/add";
+                        let url = "";
+                        if ($('#id').val() > 0) {
+                            url = "/save";
+                        } else {
+                            url = "/add";
+                        }
+
                         $.ajax(
                             {
                                 method: "POST",
@@ -180,7 +227,7 @@
                                 dataType: "json",
                                 contentType: "application/json",
                                 data: JSON.stringify(getData($('form[name=appointmentForm]').serializeArray())),
-                                complete: function (response) {
+                                complete: function(response) {
                                     giveMeAllAppointments();
                                 }
                             }
@@ -188,7 +235,7 @@
                     }
 
                     function getData(data) {
-                        var result = {};
+                        let result = {};
                         $.map(data, function (n) {
                             result[n['name']] = n['value'];
                         });
@@ -210,14 +257,9 @@
                             );
                         }
                     }
-
-
                 </script>
-
             </div>
         </div>
-
-
     </div>
 </div>
 </body>
