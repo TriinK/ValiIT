@@ -5,7 +5,8 @@
     <script src="https://code.jquery.com/jquery-3.3.1.js"
             integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
             crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js" integrity="sha256-0YPKAwZP7Mp3ALMRVB2i8GXeEndvCq3eSl/WsAl1Ryk="
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"
+            integrity="sha256-0YPKAwZP7Mp3ALMRVB2i8GXeEndvCq3eSl/WsAl1Ryk="
             crossorigin="anonymous"></script>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
@@ -13,6 +14,8 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
             integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
             crossorigin="anonymous"></script>
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     <link rel="stylesheet" type="text/css" href="css/AppPage.css">
     <script src="js/PageFunctions.js"></script>
@@ -33,7 +36,7 @@
             <h1> Tere tulemast! </h1>
         </div>
         <div class="wrapper">
-            <button class="btn btn-primary" onclick="prepareAppointmentAdd();">LISA</button>
+            <button class="btn btn-secondary" id="add-btn" onclick="prepareAppointmentAdd();">LISA UUS KIRJE</button>
             <div class="container3">
                 <table>
 
@@ -85,35 +88,15 @@
                 </div>
                 <!-- Modal add end-->
 
-                <script>
 
+                <script>
 
                     $(document).ready(
                         function () {
                             initUIControls();
-                            giveMeUser();
                             giveMeAllAppointments();
                         }
                     );
-                    function giveMeUser() {
-                        $.ajax(
-                            {
-                                method: "GET",
-                                url: "/user",
-                                dataType: "json",
-                                contentType: "application/json",
-                                complete: function (response) {
-                                    if (response.status == '401') {
-                                        window.location.href = '/';
-                                    }
-                                    let user = response.responseJSON;
-                                    $('#username').html(user.email);
-                                }
-                            }
-                        );
-                    }
-
-
 
                     function initUIControls() {
                         $('#time').datepicker(
@@ -145,39 +128,34 @@
                                     console.log(appointments);
                                     for (let i = 0; i < appointments.length; i++) {
                                         let row = '<tr>';
-                                        row = row + "<td id='text1'>" + appointments[i].eventname + "</td>";
-                                        row = row + "<td id='text2'>" + appointments[i].time + "</td>";
-                                        row = row + "<td id='text3'>" + appointments[i].description + "</td>";
-                                        row = row + '<td><input id="check" type="checkbox" onclick=crossout() /></td>';
+                                        row = row + "<td>" + appointments[i].eventname + "</td>";
+                                        row = row + "<td>" + appointments[i].time + "</td>";
+                                        row = row + "<td>" + appointments[i].description + "</td>";
+                                        row = row + '<td>' + '<input class="check" type="checkbox" />' + '</td>';
                                         row = row + '<td><button class="btn btn-secondary" id="change" onClick="prepareAppointment('
                                             + appointments[i].id + ');">MUUDA</button>&nbsp;'
                                             + '<button class="btn btn-secondary"  id="delete" onClick="deleteAppointment('
                                             + appointments[i].id + ');">KUSTUTA</button></td>';
                                         row = row + "</tr>";
                                         $('#appointments_list').append(row);
+
+
+
+                                        $('.check').change(function () {
+
+                                            if (this.checked) {
+                                                $(this).parent().parent().css("text-decoration", "line-through");
+                                                setTimeout(function(){doneAppointment(appointments[i].id)}, 2000);
+                                            } else {
+                                                $(this).parent().parent().css("text-decoration", "none");
+                                            }
+                                        });
                                     }
                                 }
                             }
                         );
                     }
-                    function crossout() {
 
-                        let checkBox = document.getElementById("check");
-
-                        let text1 = document.getElementById("text1");
-                        let text2 = document.getElementById("text2");
-                        let text3 = document.getElementById("text3");
-
-                        if (checkBox.checked == true) {
-                            text1.style = "text-decoration: line-through";
-                            text2.style = "text-decoration: line-through";
-                            text3.style = "text-decoration: line-through";
-                        }else{
-                            text1.style = "none";
-                            text2.style = "none";
-                            text3.style = "none";
-                        }
-                    }
 
                     function prepareAppointmentAdd() {
                         $('#id').val(0);
@@ -227,7 +205,7 @@
                                 dataType: "json",
                                 contentType: "application/json",
                                 data: JSON.stringify(getData($('form[name=appointmentForm]').serializeArray())),
-                                complete: function(response) {
+                                complete: function (response) {
                                     giveMeAllAppointments();
                                 }
                             }
@@ -243,19 +221,75 @@
                     }
 
                     function deleteAppointment(appointmentId) {
-                        if (confirm("OLED SA KINDEL?")) {
-                            $.ajax(
-                                {
-                                    method: "POST",
-                                    url: "/delete/" + appointmentId,
-                                    dataType: "json",
-                                    contentType: "application/json",
-                                    complete: function (response) {
-                                        giveMeAllAppointments();
-                                    }
+                        swal({
+                            title: "Oled kindel, et soovid kirje eemaldada?",
+                            text: "Eemaldades kirjet enam taastada ei saa",
+                            icon: "warning",
+                            buttons: ["Tühista", "Kustuta"],
+                            dangerMode: true,
+                        })
+                            .then((willDelete) => {
+                                if (willDelete) {
+                                    $.ajax(
+                                        {
+                                            method: "POST",
+                                            url: "/delete/" + appointmentId,
+                                            dataType: "json",
+                                            contentType: "application/json",
+                                            complete: function (response) {
+                                                giveMeAllAppointments();
+                                            }
+                                        });
                                 }
-                            );
-                        }
+                            });
+                    }
+
+                    function deleteAppointment(appointmentId) {
+                        swal({
+                            title: "Oled kindel, et soovid kirje eemaldada?",
+                            text: "Eemaldades kirjet enam taastada ei saa",
+                            icon: "warning",
+                            buttons: ["Tühista", "Kustuta"],
+                            dangerMode: true,
+                        })
+                            .then((willDelete) => {
+                                if (willDelete) {
+                                    $.ajax(
+                                        {
+                                            method: "POST",
+                                            url: "/delete/" + appointmentId,
+                                            dataType: "json",
+                                            contentType: "application/json",
+                                            complete: function (response) {
+                                                giveMeAllAppointments();
+                                            }
+                                        });
+                                }
+                            });
+                    }
+
+                    function doneAppointment(appointmentId) {
+                        swal({
+                            title: "Kas soovid märgitud kirje ka eemaldada?",
+                            text: "Eemaldades kirjet enam taastada ei saa",
+                            icon: "warning",
+                            buttons: ["Tühista", "Kustuta"],
+                            dangerMode: true,
+                        })
+                            .then((willDelete) => {
+                                if (willDelete) {
+                                    $.ajax(
+                                        {
+                                            method: "POST",
+                                            url: "/delete/" + appointmentId,
+                                            dataType: "json",
+                                            contentType: "application/json",
+                                            complete: function (response) {
+                                                giveMeAllAppointments();
+                                            }
+                                        });
+                                }
+                            });
                     }
                 </script>
             </div>

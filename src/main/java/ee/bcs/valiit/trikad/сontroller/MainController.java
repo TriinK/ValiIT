@@ -18,18 +18,18 @@ public class MainController {
 
     @RequestMapping(value = "/")
     public String index() {
-        return "index.html";
+        return "AppPage.html";
     }
 
     @RequestMapping(value="/login")
     public String login(@RequestParam(value = "error", required = false) String error, @RequestParam(value = "logout", required = false) String logout) {
         if (error != null) {
-            return "/static/error.html";
+            return "error.html";
         }
         if (logout != null) {
-            return "/static/logout.html";
+            return "logout.html";
         }
-        return "/static/index.html";
+        return "AppPage.html";
     }
 
     //Sisselogimine autentimisega
@@ -48,9 +48,4 @@ public class MainController {
         }
         return principal;
     }
-    @GetMapping("/apps")
-    private String appoints() {
-        return "AppPage.html";
-    }
-
 }

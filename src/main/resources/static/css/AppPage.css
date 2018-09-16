@@ -15,7 +15,7 @@ html, body {
 }
 
 .Wrap {
-    width:1300px;
+    width:1400px;
     margin: 0 auto;
 
 }
@@ -55,6 +55,15 @@ h1{
 
 }
 
+#add-btn{
+    color: white;
+    font-weight:bold;
+    background-color: rgb(63,63,63);
+    border: none;
+    font-size:20px;
+    margin-bottom: 10px;
+}
+
 
 nav{
     line-height:70px;
@@ -70,7 +79,7 @@ nav{
     background: rgb(36, 36, 36);
     border-radius: 30px;
     padding-top: 2%;
-    width:1250px;
+    width:1400px;
     max-width: 1400px;
     padding-bottom: 200px;
     padding-left: 4%;
@@ -80,9 +89,6 @@ nav{
     box-shadow: 0 3px 20px 0 rgba(0, 0, 0, 0.6);
 }
 
-.wrapper {
-    padding-top: 5%;
-}
 
 tbody:before {
     content: "-";
@@ -91,11 +97,14 @@ tbody:before {
     color: transparent;
 }
 
+table{
+    width: 1300px;
+}
 
 
 th {
     background: linear-gradient(to bottom, rgb(248,190,0),rgb(249, 156, 0));
-    padding:5px 20px 5px 15px;
+    padding:5px 10px 5px 15px;
     height:auto;
     width:auto;
     text-align: center;
@@ -109,8 +118,8 @@ th {
 td{
     text-align: center;
     padding:5px 20px 5px 15px;
-    border-spacing: 15px;
     margin: 0 10px;
+    width: auto;
     max-width: 500px;
 
 }

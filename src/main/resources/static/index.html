@@ -98,12 +98,13 @@
             event.preventDefault();
             let data = 'username=' + $('#username').val()+ '&password=' + SHA256($('#password').val());
             $.ajax({
-                data: data,
-                type: 'GET',
+                data: JSON.stringify(data),
+                timeout: 1000,
+                type: 'POST',
                 url: '/login',
-                contentType: "application/json; charset=utf-8"
+                contentType: "application/json"
             }).done(function(data, textStatus, jqXHR) {
-                window.location = '/apps';
+                window.location = '/';
             }).fail(function(jqXHR, textStatus, errorThrown, response) {
                 console.log(data);
                 console.log(response);
