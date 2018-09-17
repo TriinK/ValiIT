@@ -17,6 +17,9 @@
 
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
+    <link rel="stylesheet" href="css/jquery.datetimepicker.min.css" />
+    <script src="js/jquery.datetimepicker.full.min.js"></script>
+
     <link rel="stylesheet" type="text/css" href="css/AppPage.css">
     <script src="js/PageFunctions.js"></script>
     <title>Events</title>
@@ -38,8 +41,7 @@
         <div class="wrapper">
             <button class="btn btn-secondary" id="add-btn" onclick="prepareAppointmentAdd();">LISA UUS KIRJE</button>
             <div class="container3">
-                <table>
-
+                <table class="table-mine">
                     <thead>
                     <tr>
                         <th scope="col">Nimi</th>
@@ -47,7 +49,6 @@
                         <th scope="col">Kirjeldus</th>
                         <th scope="col">Tehtud</th>
                         <th scope="col">Valikud</th>
-
                     </tr>
                     </thead>
                     <tbody id="appointments_list">
@@ -87,8 +88,6 @@
                     </div>
                 </div>
                 <!-- Modal add end-->
-
-
                 <script>
 
                     $(document).ready(
@@ -98,34 +97,22 @@
                             giveMeAllAppointments();
                         }
                     );
+
                     function giveMeUser() {
-                        $.ajax(
-                            {
-                                method: "GET",
-                                url: "/user",
-                                dataType: "json",
-                                contentType: "application/json",
-                                complete: function (response) {
-                                    if (response.status == '401') {
-                                        window.location.href = '/login';
-                                    }
-                                    var user = response.responseJSON;
-                                    $('#username').html(user.name);
-                                }
+                        var user = JSON.parse(localStorage.getItem("user"), function(key,value) {
+                            console.log("Values are: " + key + ": " + value);
+                            if (key == 'id') {
+                                $('#userId').val(value);
                             }
-                        );
+                        });
                     }
 
                     function initUIControls() {
-                        $('#time').datepicker(
+                        $('#time').datetimepicker(
                             {
-                                dateFormat: 'dd.mm.yy',
-                                showButtonPanel: true,
-                                changeMonth: true,
-                                changeYear: true,
-                                showOtherMonths: false,
-                                selectOtherMonths: true,
-                                yearRange: "-300:+0"
+                                format: 'd.m.Y H:i',
+                                step: 15,
+                                mask: true
                             }
                         );
                     }
@@ -138,42 +125,44 @@
                                 dataType: "json",
                                 contentType: "application/json",
                                 complete: function (response) {
-                                    if (response.status == '401') {
-                                        window.location.href = '/home';
-                                    }
                                     $('#appointments_list').empty();
                                     let appointments = response.responseJSON;
-                                    console.log(appointments);
                                     for (let i = 0; i < appointments.length; i++) {
-                                        let row = '<tr>';
-                                        row = row + "<td>" + appointments[i].eventname + "</td>";
-                                        row = row + "<td>" + appointments[i].time + "</td>";
-                                        row = row + "<td>" + appointments[i].description + "</td>";
-                                        row = row + '<td>' + '<input class="check" type="checkbox" />' + '</td>';
-                                        row = row + '<td><button class="btn btn-secondary" id="change" onClick="prepareAppointment('
+                                        console.log($('#userId').val());
+                                        console.log(appointments[i].userId);
+                                        if ($('#userId').val() == appointments[i].userId) {
+                                            var options = { hour: 'numeric', minute: '2-digit', year: 'numeric', month: 'numeric', day: 'numeric'};
+                                            var datetime = new Date(appointments[i].time).toLocaleString('en-GB', options);
+                                            let row = '<tr>';
+                                            row = row + "<td>" + appointments[i].eventname + "</td>";
+                                            row = row + "<td>" + datetime + "</td>";
+                                            row = row + "<td>" + appointments[i].description + "</td>";
+                                            row = row + '<td>' + '<input class="check" type="checkbox" />' + '</td>';
+                                            row = row + '<td>' + '<button class="btn btn-secondary" id="change" onClick="prepareAppointment('
                                             + appointments[i].id + ');">MUUDA</button>&nbsp;'
                                             + '<button class="btn btn-secondary"  id="delete" onClick="deleteAppointment('
                                             + appointments[i].id + ');">KUSTUTA</button></td>';
-                                        row = row + "</tr>";
-                                        $('#appointments_list').append(row);
+                                            row = row + "</tr>";
+                                            $('#appointments_list').append(row);
 
 
-
-                                        $('.check').change(function () {
+                                            $('.check').change(function () {
 
                                             if (this.checked) {
                                                 $(this).parent().parent().css("text-decoration", "line-through");
-                                                setTimeout(function(){doneAppointment(appointments[i].id)}, 2000);
+                                                setTimeout(function () {
+                                                    doneAppointment(appointments[i].id)
+                                                }, 2000);
                                             } else {
                                                 $(this).parent().parent().css("text-decoration", "none");
                                             }
                                         });
+                                        }
                                     }
                                 }
                             }
                         );
                     }
-
 
                     function prepareAppointmentAdd() {
                         $('#id').val(0);
@@ -209,17 +198,10 @@
                     }
 
                     function addAppointment() {
-                        let url = "";
-                        if ($('#id').val() > 0) {
-                            url = "/save";
-                        } else {
-                            url = "/add";
-                        }
-
                         $.ajax(
                             {
                                 method: "POST",
-                                url: url,
+                                url: "/add",
                                 dataType: "json",
                                 contentType: "application/json",
                                 data: JSON.stringify(getData($('form[name=appointmentForm]').serializeArray())),
@@ -236,30 +218,6 @@
                             result[n['name']] = n['value'];
                         });
                         return result;
-                    }
-
-                    function deleteAppointment(appointmentId) {
-                        swal({
-                            title: "Oled kindel, et soovid kirje eemaldada?",
-                            text: "Eemaldades kirjet enam taastada ei saa",
-                            icon: "warning",
-                            buttons: ["Tühista", "Kustuta"],
-                            dangerMode: true,
-                        })
-                            .then((willDelete) => {
-                                if (willDelete) {
-                                    $.ajax(
-                                        {
-                                            method: "POST",
-                                            url: "/delete/" + appointmentId,
-                                            dataType: "json",
-                                            contentType: "application/json",
-                                            complete: function (response) {
-                                                giveMeAllAppointments();
-                                            }
-                                        });
-                                }
-                            });
                     }
 
                     function deleteAppointment(appointmentId) {
@@ -309,6 +267,7 @@
                                 }
                             });
                     }
+
                 </script>
             </div>
         </div>

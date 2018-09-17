@@ -2,6 +2,10 @@ html, body {
     height: 100%;
     min-height:100%;
     background:linear-gradient(rgb(248,190,0),rgb(259,156,0));
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
     justify-content: center;
 
 }
@@ -11,7 +15,7 @@ html, body {
     border: 0;
     display: inline-block;
     position: relative;
-    padding-left: 35%;
+    padding-left: 40%;
 }
 
 .Wrap {
@@ -79,8 +83,8 @@ nav{
     background: rgb(36, 36, 36);
     border-radius: 30px;
     padding-top: 2%;
-    width:1400px;
-    max-width: 1400px;
+    width:1500px;
+    max-width: 1500px;
     padding-bottom: 200px;
     padding-left: 4%;
     font-size:20px;
@@ -97,8 +101,8 @@ tbody:before {
     color: transparent;
 }
 
-table{
-    width: 1300px;
+.table-mine{
+    width: 1400px;
 }
 
 

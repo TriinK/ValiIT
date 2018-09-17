@@ -96,19 +96,25 @@
     $(document).ready(function ($) {
         $('#loginForm').submit(function (event) {
             event.preventDefault();
-            var data = 'username=' + $('#username').val()+ '&password=' + SHA256($('#password').val());
+            //var data = 'username=' + $('#username').val()+ '&password=' + $('#password').val();
             $.ajax({
-                data: JSON.stringify(data),
-                timeout: 1000,
-                type: 'POST',
-                url: 'login',
-                contentType: "application/json"
-            }).done(function(data, textStatus, jqXHR) {
-                window.location = '/';
+                type: 'GET',
+                url: '/userslist',
+                dataType: "json",
+                contentType: "application/json",
+                complete: function (response) {
+                    let users = response.responseJSON;
+                    for (let i = 0; i < users.length; i++) {
+                        if (users[i].email == $('#username').val()) {
+                            var userToStorage = JSON.stringify(users[i]);
+                            localStorage.setItem("user", userToStorage);
+                            window.location = "/";
+                        }
+                    }
+                }
             }).fail(function(jqXHR, textStatus, errorThrown, response) {
-                console.log(data);
                 console.log(response);
-                alert('Something went wrong (It is probably something you did!)...');
+                alert('Something went wrong (It is probably something you did!)');
             });
         });
     });

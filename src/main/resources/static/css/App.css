@@ -47,6 +47,10 @@ html, body {
   min-height:100%;
   background:linear-gradient(rgb(248,190,0),rgb(259,156,0));
   justify-content: center;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 a {
   font-family: Ubuntu-Regular;

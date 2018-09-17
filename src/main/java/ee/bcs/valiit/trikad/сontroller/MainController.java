@@ -31,21 +31,4 @@ public class MainController {
         }
         return "index.html";
     }
-
-    //Sisselogimine autentimisega
-    @RequestMapping(value = "/user")
-    @ResponseBody
-    public AuthenticatedUser user() {
-        AuthenticatedUser principal = new AuthenticatedUser();
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = userservice.findByEmail(authentication.getName());
-        if (user != null) {
-            principal.setId(user.getId());
-            principal.setUsername(user.getEmail());
-            principal.setName(user.getFirstname());
-            principal.setEmail(user.getEmail());
-            principal.setRoles(AuthorityUtils.authorityListToSet(authentication.getAuthorities()));
-        }
-        return principal;
-    }
 }

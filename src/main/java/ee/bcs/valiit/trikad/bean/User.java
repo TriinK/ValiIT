@@ -46,5 +46,4 @@ public class User extends BaseEntity {
     @Fetch(FetchMode.SELECT)
     @JoinColumn(name = "user_id")
     private List<UserRole> roles;
-
 }
