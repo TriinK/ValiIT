@@ -111,6 +111,7 @@
                             window.location = "/";
                         }
                     }
+                    if(!("user" in localStorage)) {alert("Email or password is incorrect!");}
                 }
             }).fail(function(jqXHR, textStatus, errorThrown, response) {
                 console.log(response);

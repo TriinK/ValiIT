@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <head lang="en">
     <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
-
+    <script src="https://api-maps.yandex.ru/2.1/?lang=en_US" type="text/javascript"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.js"
             integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
             crossorigin="anonymous"></script>
@@ -36,7 +36,7 @@
         </header>
 
         <div class="Greeting">
-            <h1> Tere tulemast
+            <h1> Tere tulemast,
                 <script>
                     var user = JSON.parse(localStorage.getItem("user"), function(key,value) {
                         if (key == 'firstname') {
@@ -49,19 +49,44 @@
         <div class="wrapper">
             <button class="btn btn-secondary" id="add-btn" onclick="prepareAppointmentAdd();">LISA UUS KIRJE</button>
             <div class="container3">
-                <table class="table-mine">
-                    <thead>
-                    <tr>
-                        <th scope="col">Nimi</th>
-                        <th scope="col">Aeg</th>
-                        <th scope="col">Kirjeldus</th>
-                        <th scope="col">Tehtud</th>
-                        <th scope="col">Valikud</th>
-                    </tr>
-                    </thead>
-                    <tbody id="appointments_list">
-                    </tbody>
-                </table>
+                <ul class="nav nav-tabs mb-3">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="appointments-tab" data-toggle="pill" href="#appointments" role="tab" aria-controls="appointments" aria-selected="true">Appointments</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="map-tab" data-toggle="pill" href="#map" role="tab" aria-controls="map" aria-selected="false">Location</a>
+                    </li>
+                </ul>
+                <div id="appointments" class="tab-pane fade show active" role="tabpanel" aria-labelledby="appointments-tab">
+                    <table class="table-mine">
+                        <thead>
+                        <tr>
+                            <th scope="col">Nimi</th>
+                            <th scope="col">Aeg</th>
+                            <th scope="col">Kirjeldus</th>
+                            <th scope="col">Tehtud</th>
+                            <th scope="col">Valikud</th>
+                        </tr>
+                        </thead>
+                        <tbody id="appointments_list">
+                        </tbody>
+                    </table>
+                </div>
+                <!--Map tab-->
+                <div id="map" class="tab-pane fade show active" role="tabpanel" aria-labelledby="map-tab" style="width: 1200px; height: 800px; padding-top:-20px;">
+                    <script type="text/javascript">
+                        ymaps.ready(init);
+                        var myMap;
+                        function init(){
+                            myMap = new ymaps.Map("map", {
+                                center: [59.436962, 24.753574],
+                                zoom: 13.5
+                            });
+                        }
+                    </script>
+
+
+                </div>
 
                 <!-- Modal add-->
                 <div class="modal fade" id="appointment_modal" tabindex="-1" role="dialog"
@@ -96,6 +121,7 @@
                     </div>
                 </div>
                 <!-- Modal add end-->
+
                 <script>
 
                     $(document).ready(
@@ -151,24 +177,24 @@
                                             row = row + "<td>" + appointments[i].description + "</td>";
                                             row = row + '<td>' + '<input class="check" type="checkbox" />' + '</td>';
                                             row = row + '<td>' + '<button class="btn btn-secondary" id="change" onClick="prepareAppointment('
-                                            + appointments[i].id + ');">MUUDA</button>&nbsp;'
-                                            + '<button class="btn btn-secondary"  id="delete" onClick="deleteAppointment('
-                                            + appointments[i].id + ');">KUSTUTA</button></td>';
+                                                + appointments[i].id + ');">MUUDA</button>&nbsp;'
+                                                + '<button class="btn btn-secondary"  id="delete" onClick="deleteAppointment('
+                                                + appointments[i].id + ');">KUSTUTA</button></td>';
                                             row = row + "</tr>";
                                             $('#appointments_list').append(row);
 
 
                                             $('.check').change(function () {
 
-                                            if (this.checked) {
-                                                $(this).parent().parent().css("text-decoration", "line-through");
-                                                setTimeout(function () {
-                                                    doneAppointment(appointments[i].id)
-                                                }, 2000);
-                                            } else {
-                                                $(this).parent().parent().css("text-decoration", "none");
-                                            }
-                                        });
+                                                if (this.checked) {
+                                                    $(this).parent().parent().css({"text-decoration":"line-through", "text-decoration-color":"red"});
+                                                    setTimeout(function () {
+                                                        doneAppointment(appointments[i].id)
+                                                    }, 2000);
+                                                } else {
+                                                    $(this).parent().parent().css("text-decoration", "none");
+                                                }
+                                            });
                                         }
                                     }
                                 }

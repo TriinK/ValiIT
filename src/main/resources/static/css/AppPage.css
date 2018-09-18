@@ -58,6 +58,10 @@ h1{
     font-size:15px;
 
 }
+#appointments-tab,
+#map-tab{
+    color:orange;
+}
 
 #add-btn{
     color: white;
