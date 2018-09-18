@@ -107,14 +107,16 @@
                     );
 
                     function giveMeUser() {
-                        var user = JSON.parse(localStorage.getItem("user"), function(key,value) {
-                            console.log("Values are: " + key + ": " + value);
-                            if (key == 'id') {
-                                $('#userId').val(value);
-                            } else if (key == null) {
-                                window.location = "/login";
-                            }
-                        });
+                        if ("user" in localStorage) {
+                            var user = JSON.parse(localStorage.getItem("user"), function (key, value) {
+                                console.log("Values are: " + key + ": " + value);
+                                if (key == 'id') {
+                                    $('#userId').val(value);
+                                }
+                            });
+                        } else {
+                            window.location = "/login"
+                        }
                     }
 
                     function initUIControls() {
