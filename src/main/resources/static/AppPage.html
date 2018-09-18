@@ -57,6 +57,7 @@
                         <a class="nav-link" id="map-tab" data-toggle="pill" href="#map" role="tab" aria-controls="map" aria-selected="false">Location</a>
                     </li>
                 </ul>
+                <div class="tab-content" style="padding-bottom: 30px;">
                 <div id="appointments" class="tab-pane fade show active" role="tabpanel" aria-labelledby="appointments-tab">
                     <table class="table-mine">
                         <thead>
@@ -73,19 +74,70 @@
                     </table>
                 </div>
                 <!--Map tab-->
-                <div id="map" class="tab-pane fade show active" role="tabpanel" aria-labelledby="map-tab" style="width: 1200px; height: 800px; padding-top:-20px;">
+                <div id="map" class="tab-pane fade" role="tabpanel" aria-labelledby="map-tab" style="width: 1200px; height: 600px; padding-top:-20px;">
                     <script type="text/javascript">
                         ymaps.ready(init);
-                        var myMap;
                         function init(){
+                            var myPlacemark,
                             myMap = new ymaps.Map("map", {
                                 center: [59.436962, 24.753574],
                                 zoom: 13.5
+                            }, {
+                                searchControlProvider: 'yandex#search'
+                        });
+                            // Listening for a click on the map
+                            myMap.events.add('click', function (e) {
+                                var coords = e.get('coords');
+
+                                // Moving the placemark if it was already created
+                                if (myPlacemark) {
+                                    myPlacemark.geometry.setCoordinates(coords);
+                                }
+                                // Otherwise, creating it.
+                                else {
+                                    myPlacemark = createPlacemark(coords);
+                                    myMap.geoObjects.add(myPlacemark);
+                                    // Listening for the dragging end event on the placemark.
+                                    myPlacemark.events.add('dragend', function () {
+                                        getAddress(myPlacemark.geometry.getCoordinates());
+                                    });
+                                }
+                                getAddress(coords);
                             });
+
+                            // Creating a placemark
+                            function createPlacemark(coords) {
+                                return new ymaps.Placemark(coords, {
+                                    iconCaption: 'searching...'
+                                }, {
+                                    preset: 'islands#violetDotIconWithCaption',
+                                    draggable: true
+                                });
+                            }
+
+                            // Determining the address by coordinates (reverse geocoding).
+                            function getAddress(coords) {
+                                myPlacemark.properties.set('iconCaption', 'searching...');
+                                ymaps.geocode(coords).then(function (res) {
+                                    var firstGeoObject = res.geoObjects.get(0);
+
+                                    myPlacemark.properties
+                                        .set({
+                                            // Forming a string with the object's data.
+                                            iconCaption: [
+                                                // The name of the municipality or the higher territorial-administrative formation.
+                                                firstGeoObject.getLocalities().length ? firstGeoObject.getLocalities() : firstGeoObject.getAdministrativeAreas(),
+                                                // Getting the path to the toponym; if the method returns null, then requesting the name of the building.
+                                                firstGeoObject.getThoroughfare() || firstGeoObject.getPremise()
+                                            ].filter(Boolean).join(', '),
+                                            // Specifying a string with the address of the object as the balloon content.
+                                            balloonContent: firstGeoObject.getAddressLine()
+                                        });
+                                });
+                            }
                         }
                     </script>
-
-
+                </div>
                 </div>
 
                 <!-- Modal add-->
@@ -305,7 +357,6 @@
                                 }
                             });
                     }
-
                 </script>
             </div>
         </div>
