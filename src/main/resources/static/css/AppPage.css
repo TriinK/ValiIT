@@ -20,7 +20,7 @@ html, body {
 
 .Wrap {
     width:1400px;
-    margin: 0 auto;
+    margin-left: 4%;
 
 }
 h1{
@@ -78,7 +78,6 @@ nav{
 
 }
 
-
 .container3 {
     background: rgb(36, 36, 36);
     border-radius: 30px;
@@ -134,18 +133,22 @@ tr{
     max-width: 500px;
 }
 
-#appointmentDelete_modal{
-    background: rgba(36, 36, 36, 0.5)
-}
-
 
 #appointment_modal{
     background: rgba(36, 36, 36, 0.5);
+    box-shadow:0 3px 20px 0 rgba(0, 0, 0, 0.6);
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+    border-radius: 30px;
 }
 
 
 .modal-content {
-    background:black;
+    background:rgb(36, 36, 36);
+    box-shadow:0 3px 20px 0 rgba(0, 0, 0, 0.6);
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+    border-radius: 30px;
 }
 
 .modal-title {
