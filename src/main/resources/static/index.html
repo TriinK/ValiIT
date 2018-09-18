@@ -105,7 +105,7 @@
                 complete: function (response) {
                     let users = response.responseJSON;
                     for (let i = 0; i < users.length; i++) {
-                        if (users[i].email == $('#username').val()) {
+                        if (users[i].email == $('#username').val() && users[i].password == SHA256($('#password').val())) {
                             var userToStorage = JSON.stringify(users[i]);
                             localStorage.setItem("user", userToStorage);
                             window.location = "/";

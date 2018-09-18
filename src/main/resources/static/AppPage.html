@@ -36,7 +36,15 @@
         </header>
 
         <div class="Greeting">
-            <h1> Tere tulemast! </h1>
+            <h1> Tere tulemast
+                <script>
+                    var user = JSON.parse(localStorage.getItem("user"), function(key,value) {
+                        if (key == 'firstname') {
+                            document.write(value);
+                        }
+                    });
+                </script>!
+            </h1>
         </div>
         <div class="wrapper">
             <button class="btn btn-secondary" id="add-btn" onclick="prepareAppointmentAdd();">LISA UUS KIRJE</button>
@@ -103,6 +111,8 @@
                             console.log("Values are: " + key + ": " + value);
                             if (key == 'id') {
                                 $('#userId').val(value);
+                            } else if (key == null) {
+                                window.location = "/login";
                             }
                         });
                     }
