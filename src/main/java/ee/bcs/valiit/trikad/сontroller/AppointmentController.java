@@ -36,14 +36,13 @@ public class AppointmentController {
         return appointmentService.list();
     }
 
-    @PostMapping("/add/{userId}")
-    private void add(@RequestParam Long userId, @RequestParam String event_name, @RequestParam Date time, @RequestParam String description) {
-        Appointments app = new Appointments();
-        app.setUserId(userId);
-        app.setEventname(event_name);
-        app.setTime(time);
-        app.setDescription(description);
-        appointmentService.add(app);
+    @PostMapping("/add")
+    public void add(@RequestBody Appointments appointment) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user= userservice.findByEmail(authentication.getName());
+        appointment.setUserId(user.getId());
+
+        appointmentService.add(appointment);
     }
 
     @GetMapping(value = "/get/{id}", produces = "application/json")

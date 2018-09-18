@@ -1,5 +1,6 @@
 package ee.bcs.valiit.trikad.bean;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -33,6 +34,7 @@ public class Appointments extends BaseEntity {
     private String eventname;
 
     @Column(name="time")
+    @JsonFormat(pattern = "dd.MM.yyyy HH:mm", timezone = "Europe/Tallinn")
     private Date time;
 
 
