@@ -69,6 +69,7 @@
                             <div class="modal-body">
                                 <form name="appointmentForm">
                                     <input type="hidden" name="id" id="id" value="0"/>
+                                    <input type="hidden" name="userId" id="userId" value="0"/>
                                     <input type="text" id="eventname" name="eventname" class="form-control"
                                            placeholder="Kirje nimi"/><br/>
                                     <input type="text" id="time" name="time" readonly="readonly" class="form-control"
@@ -130,11 +131,11 @@
                                         console.log($('#userId').val());
                                         console.log(appointments[i].userId);
                                         if ($('#userId').val() == appointments[i].userId) {
-                                            var options = { hour: 'numeric', minute: '2-digit', year: 'numeric', month: 'numeric', day: 'numeric'};
-                                            var datetime = new Date(appointments[i].time).toLocaleString('en-GB', options);
+                                            //var options = { hour: 'numeric', minute: '2-digit', year: 'numeric', month: 'numeric', day: 'numeric'};
+                                            //var datetime = new Date(appointments[i].time).toLocaleString('en-GB', options);
                                             let row = '<tr>';
                                             row = row + "<td>" + appointments[i].eventname + "</td>";
-                                            row = row + "<td>" + datetime + "</td>";
+                                            row = row + "<td>" + appointments[i].time + "</td>";
                                             row = row + "<td>" + appointments[i].description + "</td>";
                                             row = row + '<td>' + '<input class="check" type="checkbox" />' + '</td>';
                                             row = row + '<td>' + '<button class="btn btn-secondary" id="change" onClick="prepareAppointment('

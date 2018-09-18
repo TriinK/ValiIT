@@ -38,9 +38,9 @@ public class AppointmentController {
 
     @PostMapping("/add")
     public void add(@RequestBody Appointments appointment) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user= userservice.findByEmail(authentication.getName());
-        appointment.setUserId(user.getId());
+        //Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        //User user= userservice.findByEmail(authentication.getName());
+        //appointment.setUserId(user.getId());
 
         appointmentService.add(appointment);
     }
