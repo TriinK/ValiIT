@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="css/App.css">
     <script src="js/PageFunctions.js"></script>
     <script src="js/SHA256.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <title>Kohtumisteäpp</title>
 </head>
 <body>
@@ -111,7 +112,12 @@
                             window.location = "/";
                         }
                     }
-                    if(!("user" in localStorage)) {alert("Email or password is incorrect!");}
+                    if(!("user" in localStorage)) {
+                        swal({
+                        title: "E-mail või salasõna on vale",
+                        icon: "warning",
+                        dangerMode: true,
+                    })}
                 }
             }).fail(function(jqXHR, textStatus, errorThrown, response) {
                 console.log(response);
