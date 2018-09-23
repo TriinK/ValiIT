@@ -123,10 +123,11 @@ th {
 
 td{
     text-align: center;
-    padding:5px 20px 5px 15px;
+    padding: 5px 20px 5px 15px;
     margin: 0 10px;
     width: auto;
-    max-width: 500px;
+    max-width: 300px;
+    word-break: break-word;
 
 }
 
